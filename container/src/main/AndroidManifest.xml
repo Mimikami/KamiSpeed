@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--
+      Stub Activity：系统只认宿主声明过的组件。
+      访客真正要启动的 Activity 会在运行时被还原到这些壳里。
+
+      16 个壳：standard 的 Activity 轮换使用；singleTop/singleTask/singleInstance
+      的 Activity 按类名哈希固定映射到一个壳，配合运行时添加的
+      SINGLE_TOP / CLEAR_TOP 标志复用栈内实例（见 StubRegistry）。
+      所有壳共享 taskAffinity="com.kamispeed.guest"，与宿主自己的
+      MainActivity 分属两个 task，访客 Activity 才是 task root。
+    -->
+    <application>
+
+        <activity
+            android:name="com.kamispeed.container.StubActivity0"
+            android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|keyboardHidden|uiMode|density|fontScale|layoutDirection"
+            android:exported="false"
+            android:hardwareAccelerated="true"
+            android:launchMode="standard"
+            android:taskAffinity="com.kamispeed.guest"
+            android:theme="@style/Theme.KamiSpeed.Stub"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="com.kamispeed.container.StubActivity1"
+            android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|keyboardHidden|uiMode|density|fontScale|layoutDirection"
+            android:exported="false"
+            android:hardwareAccelerated="true"
+            android:launchMode="standard"
+            android:taskAffinity="com.kamispeed.guest"
+            android:theme="@style/Theme.KamiSpeed.Stub"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="com.kamispeed.container.StubActivity2"
+            android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|keyboardHidden|uiMode|density|fontScale|layoutDirection"
+            android:exported="false"
+            android:hardwareAccelerated="true"
+            android:launchMode="standard"
+            android:taskAffinity="com.kamispeed.guest"
+            android:theme="@style/Theme.KamiSpeed.Stub"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="com.kamispeed.container.StubActivity3"
+            android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|keyboardHidden|uiMode|density|fontScale|layoutDirection"
+            android:exported="false"
+            android:hardwareAccelerated="true"
+            android:launchMode="standard"
+            android:taskAffinity="com.kamispeed.guest"
+            android:theme="@style/Theme.KamiSpeed.Stub"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="com.kamispeed.container.StubActivity4"
+            android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|keyboardHidden|uiMode|density|fontScale|layoutDirection"
+            android:exported="false"
+            android:hardwareAccelerated="true"
+            android:launchMode="standard"
+            android:taskAffinity="com.kamispeed.guest"
+            android:theme="@style/Theme.KamiSpeed.Stub"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="com.kamispeed.container.StubActivity5"
+            android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|keyboardHidden|uiMode|density|fontScale|layoutDirection"
+            android:exported="false"
+            android:hardwareAccelerated="true"
+            android:launchMode="standard"
+            android:taskAffinity="com.kamispeed.guest"
+            android:theme="@style/Theme.KamiSpeed.Stub"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="com.kamispeed.container.StubActivity6"
+            android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|keyboardHidden|uiMode|density|fontScale|layoutDirection"
+            android:exported="false"
+            android:hardwareAccelerated="true"
+            android:launchMode="standard"
+            android:taskAffinity="com.kamispeed.guest"
+            android:theme="@style/Theme.KamiSpeed.Stub"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="com.kamispeed.container.StubActivity7"
+            android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|keyboardHidden|uiMode|density|fontScale|layoutDirection"
+            android:exported="false"
+            android:hardwareAccelerated="true"
+            android:launchMode="standard"
+            android:taskAffinity="com.kamispeed.guest"
+            android:theme="@style/Theme.KamiSpeed.Stub"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="com.kamispeed.container.StubActivity8"
+            android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|keyboardHidden|uiMode|density|fontScale|layoutDirection"
+            android:exported="false"
+            android:hardwareAccelerated="true"
+            android:launchMode="standard"
+            android:taskAffinity="com.kamispeed.guest"
+            android:theme="@style/Theme.KamiSpeed.Stub"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="com.kamispeed.container.StubActivity9"
+            android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|keyboardHidden|uiMode|density|fontScale|layoutDirection"
+            android:exported="false"
+            android:hardwareAccelerated="true"
+            android:launchMode="standard"
+            android:taskAffinity="com.kamispeed.guest"
+            android:theme="@style/Theme.KamiSpeed.Stub"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="com.kamispeed.container.StubActivity10"
+            android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|keyboardHidden|uiMode|density|fontScale|layoutDirection"
+            android:exported="false"
+            android:hardwareAccelerated="true"
+            android:launchMode="standard"
+            android:taskAffinity="com.kamispeed.guest"
+            android:theme="@style/Theme.KamiSpeed.Stub"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="com.kamispeed.container.StubActivity11"
+            android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|keyboardHidden|uiMode|density|fontScale|layoutDirection"
+            android:exported="false"
+            android:hardwareAccelerated="true"
+            android:launchMode="standard"
+            android:taskAffinity="com.kamispeed.guest"
+            android:theme="@style/Theme.KamiSpeed.Stub"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="com.kamispeed.container.StubActivity12"
+            android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|keyboardHidden|uiMode|density|fontScale|layoutDirection"
+            android:exported="false"
+            android:hardwareAccelerated="true"
+            android:launchMode="standard"
+            android:taskAffinity="com.kamispeed.guest"
+            android:theme="@style/Theme.KamiSpeed.Stub"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="com.kamispeed.container.StubActivity13"
+            android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|keyboardHidden|uiMode|density|fontScale|layoutDirection"
+            android:exported="false"
+            android:hardwareAccelerated="true"
+            android:launchMode="standard"
+            android:taskAffinity="com.kamispeed.guest"
+            android:theme="@style/Theme.KamiSpeed.Stub"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="com.kamispeed.container.StubActivity14"
+            android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|keyboardHidden|uiMode|density|fontScale|layoutDirection"
+            android:exported="false"
+            android:hardwareAccelerated="true"
+            android:launchMode="standard"
+            android:taskAffinity="com.kamispeed.guest"
+            android:theme="@style/Theme.KamiSpeed.Stub"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="com.kamispeed.container.StubActivity15"
+            android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|keyboardHidden|uiMode|density|fontScale|layoutDirection"
+            android:exported="false"
+            android:hardwareAccelerated="true"
+            android:launchMode="standard"
+            android:taskAffinity="com.kamispeed.guest"
+            android:theme="@style/Theme.KamiSpeed.Stub"
+            android:windowSoftInputMode="adjustResize" />
+
+    </application>
+
+</manifest>

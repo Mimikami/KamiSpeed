@@ -1,0 +1,20 @@
+# Gradle
+.gradle/
+build/
+local.properties
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# APK 产物
+*.apk
+!gradle/wrapper/gradle-wrapper.jar
+
+# 系统文件
+Thumbs.db
+.DS_Store
+
+# 临时诊断文件
+*.log
