@@ -18,9 +18,18 @@ public final class VirtualCore {
     private VirtualCore() {
     }
 
+    private static final java.lang.String prop(java.lang.String name) {
+        try {
+            java.lang.Class<?> sp = java.lang.Class.forName("android.os.SystemProperties");
+            java.lang.Object v = com.kamispeed.container.Reflect.INSTANCE.callStatic(sp, "get", name, "0");
+            return v != null ? v.toString() : "0";
+        } catch (java.lang.Throwable t) {
+            return "0";
+        }
+    }
+
     @org.jetbrains.annotations.NotNull
-    public final android.content.Context getHost() {
-        android.content.Context context = hostContext;
+    public final android.content.Context getHost() {        android.content.Context context = hostContext;
         if (context == null) {
             throw new java.lang.IllegalStateException("VirtualCore.attach() not called".toString());
         }
@@ -48,9 +57,25 @@ public final class VirtualCore {
         stubRegistry.init(app);
         com.kamispeed.container.GuestAppManager.INSTANCE.init(app);
         com.kamispeed.container.ContextPackage.INSTANCE.init(app);
-        activityThreadHooked = com.kamispeed.container.ActivityThreadHook.INSTANCE.install();
-        amProxyInstalled = com.kamispeed.container.AmProxy.INSTANCE.install();
-        com.kamispeed.speedhack.Speed.INSTANCE.init();
+        // 真机排查开关（adb shell setprop debug.kamispeed.disable.* 1）
+        java.lang.String disableMh = prop("debug.kamispeed.disable.mh");
+        java.lang.String disableAm = prop("debug.kamispeed.disable.amproxy");
+        java.lang.String disableSpeed = prop("debug.kamispeed.disable.speed");
+        if ("1".equals(disableMh)) {
+            android.util.Log.w(TAG, "mH hook disabled by debug prop");
+        } else {
+            activityThreadHooked = com.kamispeed.container.ActivityThreadHook.INSTANCE.install();
+        }
+        if ("1".equals(disableAm)) {
+            android.util.Log.w(TAG, "amProxy disabled by debug prop");
+        } else {
+            amProxyInstalled = com.kamispeed.container.AmProxy.INSTANCE.install();
+        }
+        if ("1".equals(disableSpeed)) {
+            android.util.Log.w(TAG, "speed hack disabled by debug prop");
+        } else {
+            com.kamispeed.speedhack.Speed.INSTANCE.init();
+        }
         android.util.Log.i(TAG, "attached: mH=" + activityThreadHooked + " amProxy=" + amProxyInstalled + " speed=" + com.kamispeed.speedhack.Speed.INSTANCE.getReady());
     }
 

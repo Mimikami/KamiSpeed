@@ -435,6 +435,7 @@ static void rescan_modules(void) {
 static void *watchdog_main(void *arg) {
     (void) arg;
     LOGI("watchdog started");
+    int last_total = -1;
     while (atomic_load_explicit(&g_watch_run, memory_order_relaxed)) {
         struct timespec ts;
         ts.tv_sec  = 0;
@@ -442,6 +443,12 @@ static void *watchdog_main(void *arg) {
         if (real_nanosleep) real_nanosleep(&ts, NULL);
         else usleep(300 * 1000);
         rescan_modules();
+        int total = 0;
+        for (int i = 0; i < H_COUNT; i++) total += g_hooks[i].hits;
+        if (total != last_total) {
+            LOGI("watchdog scan: %d slots hooked", total);
+            last_total = total;
+        }
     }
     return NULL;
 }

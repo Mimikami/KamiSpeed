@@ -46,9 +46,24 @@ typedef struct {
     int         nsyms;
     const char *only_path; /* NULL = 全部模块 */
     int         patched;
+    /* 当前模块信息：写槽前校验地址落在 PT_LOAD 段内，防止误解析动态段后写坏内存 */
+    const ElfW(Phdr) *phdr;
+    int         phnum;
+    uintptr_t   base;
 } hook_ctx_t;
 
 /* ------------------------------------------------------------------ */
+
+static int in_load_segment(hook_ctx_t *ctx, uintptr_t addr) {
+    if (ctx->phdr == NULL) return 1;
+    for (int i = 0; i < ctx->phnum; i++) {
+        if (ctx->phdr[i].p_type != PT_LOAD) continue;
+        uintptr_t start = ctx->base + ctx->phdr[i].p_vaddr;
+        uintptr_t end   = start + ctx->phdr[i].p_memsz;
+        if (addr >= start && addr < end) return 1;
+    }
+    return 0;
+}
 
 static int patch_slot(uintptr_t slot_addr, void *new_func, void **old_func) {
     void **slot = (void **) slot_addr;
@@ -91,7 +106,9 @@ static int match_and_patch(uintptr_t base, elf_sym_t *symtab, const char *strtab
         hook_sym_t *h = &ctx->syms[k];
         if (h->name == NULL || h->new_func == NULL) continue;
         if (strcmp(name, h->name) != 0) continue;
-        if (patch_slot(base + r_offset, h->new_func, &h->old_func)) {
+        uintptr_t slot = base + r_offset;
+        if (!in_load_segment(ctx, slot)) continue;   /* 越界偏移，绝不写 */
+        if (patch_slot(slot, h->new_func, &h->old_func)) {
             h->hits++;
             hits++;
         }
@@ -181,6 +198,15 @@ static int skip_module(const char *path) {
     if (strstr(path, "libdl.so") != NULL) return 1;
     if (strstr(path, "ld-android.so") != NULL) return 1;
     if (strstr(path, "linker") != NULL) return 1;
+    /* ★ vivo Android 16 真机加固：只钩应用自己 /data 下的游戏库。
+     * 系统框架库（/system /apex /vendor /system_ext /product）里有
+     * RELR 紧凑重定位、IRELATIVE、厂商私有布局，误解析动态段会把函数
+     * 指针写进错误地址 → 内存污染 → 无关线程（binder）随机 SIGSEGV。 */
+    if (strstr(path, "/system/") != NULL) return 1;
+    if (strstr(path, "/apex/") != NULL) return 1;
+    if (strstr(path, "/vendor/") != NULL) return 1;
+    if (strstr(path, "/system_ext/") != NULL) return 1;
+    if (strstr(path, "/product/") != NULL) return 1;
     return 0;
 }
 
@@ -195,6 +221,9 @@ static int hook_cb(struct dl_phdr_info *info, size_t size, void *data) {
         return 0;
     }
 
+    ctx->phdr  = info->dlpi_phdr;
+    ctx->phnum = info->dlpi_phnum;
+    ctx->base  = (uintptr_t) info->dlpi_addr;
     scan_dynamic(info, (uintptr_t) info->dlpi_addr, ctx);
     return 0;
 }
