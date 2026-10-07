@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KamiSpeed - 耳神速 · 开源安卓免root游戏变速器</title>
+  <meta name="description" content="KamiSpeed（耳神速）是一款开源安卓免 root 游戏变速器，支持 1x~20x 实时变速、悬浮调速面板，兼容渠道 SDK 登录，免 root 免 Xposed。">
+  <meta name="keywords" content="安卓免root变速器,游戏变速器,游戏加速,变速齿轮,1x-20x,免root,游戏加速器,KamiSpeed,耳神速">
+  <meta name="theme-color" content="#0b0e13">
+  <style>
+    :root {
+      --bg: #0b0e13;
+      --card: #141922;
+      --border: #232b37;
+      --accent: #37d67a;
+      --accent-dim: #2aaf63;
+      --text: #e6ecf3;
+      --muted: #8a97a8;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Segoe UI", sans-serif;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .wrap { max-width: 860px; margin: 0 auto; padding: 0 20px; }
+
+    header {
+      padding: 64px 0 40px;
+      text-align: center;
+    }
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 64px; height: 64px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--accent), #1f9d55);
+      font-size: 30px;
+      margin-bottom: 18px;
+    }
+    h1 { font-size: 40px; font-weight: 700; letter-spacing: 1px; }
+    .brand-sub { color: var(--muted); font-size: 15px; margin: 4px 0 8px; }
+    .tagline { font-size: 18px; color: var(--muted); margin-bottom: 28px; }
+    .btn-row { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 14px 30px; border-radius: 12px;
+      font-size: 16px; font-weight: 600;
+      transition: transform .12s ease, background .2s ease;
+    }
+    .btn:hover { text-decoration: none; transform: translateY(-2px); }
+    .btn-primary { background: var(--accent); color: #06240f; }
+    .btn-primary:hover { background: var(--accent-dim); }
+    .btn-ghost { background: var(--card); color: var(--text); border: 1px solid var(--border); }
+    .btn-ghost:hover { background: #1b2430; }
+    .version { color: var(--muted); font-size: 13px; margin-top: 14px; min-height: 18px; }
+
+    .phone {
+      text-align: center;
+      padding: 20px 0 8px;
+    }
+    .phone img {
+      width: 260px;
+      border-radius: 28px;
+      border: 1px solid var(--border);
+      box-shadow: 0 20px 60px rgba(0,0,0,.5);
+    }
+
+    section { padding: 40px 0; }
+    .section-title { font-size: 24px; font-weight: 700; margin-bottom: 20px; text-align: center; }
+    .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+    .feature {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 22px;
+    }
+    .feature h3 { font-size: 16px; margin-bottom: 8px; color: var(--accent); }
+    .feature p { font-size: 14px; color: var(--muted); }
+
+    .steps { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 26px; }
+    .steps ol { padding-left: 20px; }
+    .steps li { margin-bottom: 10px; font-size: 15px; color: var(--text); }
+    .steps code { background: #0d1117; padding: 2px 6px; border-radius: 5px; font-size: 13px; }
+
+    footer {
+      border-top: 1px solid var(--border);
+      margin-top: 40px;
+      padding: 28px 0 40px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    footer .links { margin-bottom: 10px; }
+    footer .links a { margin: 0 10px; }
+  </style>
+</head>
+<body>
+
+  <header class="wrap">
+    <div class="logo">⚡</div>
+    <h1>KamiSpeed</h1>
+    <div class="brand-sub">耳神速</div>
+    <p class="tagline">开源安卓免 root 游戏变速器 · 1x ~ 20x</p>
+    <div class="btn-row">
+      <a class="btn btn-primary" id="download" href="https://github.com/Mimikami/KamiSpeed/releases/latest">⬇ 下载 APK</a>
+      <a class="btn btn-ghost" href="https://github.com/Mimikami/KamiSpeed">GitHub 仓库</a>
+    </div>
+    <div class="version" id="version">正在获取最新版本…</div>
+  </header>
+
+  <div class="phone">
+    <img src="assets/MuMu-20261007-111135-398.png" alt="KamiSpeed 截图">
+  </div>
+
+  <section class="wrap">
+    <h2 class="section-title">功能特性</h2>
+    <div class="features">
+      <div class="feature"><h3>免 root</h3><p>基于虚拟容器技术，游戏跑在 KamiSpeed 自己的进程里，不改系统、不刷机。</p></div>
+      <div class="feature"><h3>1x ~ 20x 实时变速</h3><p>拖动滑杆即时生效，时间轴全程连续不回跳，对局节奏稳定。</p></div>
+      <div class="feature"><h3>悬浮调速面板</h3><p>游戏内悬浮面板 / 半圆小球，随时调速、开关、± 微调。</p></div>
+      <div class="feature"><h3>兼容渠道 SDK</h3><p>访客 Service / 自广播进程内托管，U8 / TFY 等渠道登录可正常完成。</p></div>
+      <div class="feature"><h3>快捷启动</h3><p>收藏常用游戏，一键以当前倍率启动。</p></div>
+      <div class="feature"><h3>开源 GPL-3.0</h3><p>源码完全开放，欢迎 Star / Fork / PR。</p></div>
+    </div>
+  </section>
+
+  <section class="wrap">
+    <h2 class="section-title">快速上手</h2>
+    <div class="steps">
+      <ol>
+        <li>下载并安装 APK（首次打开按提示允许悬浮窗权限）</li>
+        <li>打开 KamiSpeed，勾选开关并拖动滑杆设置倍率</li>
+        <li>点「＋ 添加」把游戏加到主面板，点击启动</li>
+        <li>游戏内通过悬浮面板实时调速；✕ 收成小球，点小球展开</li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="wrap">
+    <h2 class="section-title">下载</h2>
+    <div class="btn-row">
+      <a class="btn btn-primary" id="download2" href="https://github.com/Mimikami/KamiSpeed/releases/latest">⬇ 下载最新 APK</a>
+      <a class="btn btn-ghost" href="https://github.com/Mimikami/KamiSpeed/releases">历史版本</a>
+    </div>
+  </section>
+
+  <footer>
+    <div class="links">
+      <a href="https://github.com/Mimikami/KamiSpeed">源码仓库</a>
+      <a href="https://github.com/Mimikami/KamiSpeed/blob/master/README.md">使用文档</a>
+      <a href="https://github.com/Mimikami/KamiSpeed/blob/master/LICENSE">GPL-3.0 许可证</a>
+    </div>
+    <div>Copyright © 2026 Mimikami · KamiSpeed 耳神速</div>
+  </footer>
+
+  <script>
+    // 动态获取最新 release 的 APK 直链，失败则回退到 releases 页
+    (function () {
+      var api = 'https://api.github.com/repos/Mimikami/KamiSpeed/releases/latest';
+      fetch(api)
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          if (!data || !data.assets) return;
+          var apk = data.assets.find(function (a) { return /\.apk$/.test(a.name); });
+          var ver = data.tag_name || '';
+          var href = apk ? apk.browser_download_url : (data.html_url || 'https://github.com/Mimikami/KamiSpeed/releases/latest');
+          document.getElementById('download').href = href;
+          document.getElementById('download2').href = href;
+          document.getElementById('version').textContent = '最新版本 ' + ver;
+        })
+        .catch(function () {
+          document.getElementById('version').textContent = '';
+        });
+    })();
+  </script>
+</body>
+</html>
