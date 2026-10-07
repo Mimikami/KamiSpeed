@@ -20,7 +20,16 @@
 
 ## 下载
 
-[Releases](https://github.com/Mimikami/KamiSpeed/releases) 下载 APK 直接安装。
+- **项目主页**：[https://mimikami.github.io/KamiSpeed/](https://mimikami.github.io/KamiSpeed/)（GitHub Pages）
+- **APK 直链**：`/KamiSpeed.apk`（主页同域，Cloudflare 托管）
+- [Releases](https://github.com/Mimikami/KamiSpeed/releases) 查看历史版本
+
+### 主页与自动同步
+
+主页是纯静态页（`docs/`），可同时部署到 GitHub Pages 与 Cloudflare Pages：
+
+1. **Cloudflare Pages 部署**：Cloudflare 控制台 → Workers & Pages → 创建 Pages → 连接本仓库 → 构建命令留空、输出目录填 `docs`。之后每次推送到 master 都会自动重新部署。
+2. **APK 自动同步**：仓库内置 GitHub Action（`.github/workflows/sync-release-apk.yml`），每 6 小时检查一次最新 Release，把 APK 以固定文件名 `docs/KamiSpeed.apk` 拉入仓库并提交 —— 提交会触发 Pages 重新部署，主页下载按钮始终指向最新包。也可在 Actions 页手动 `Run workflow` 立即同步。
 
 ## 使用
 

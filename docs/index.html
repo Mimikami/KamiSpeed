@@ -109,10 +109,10 @@
     <div class="brand-sub">耳神速</div>
     <p class="tagline">开源安卓免 root 游戏变速器 · 1x ~ 20x</p>
     <div class="btn-row">
-      <a class="btn btn-primary" id="download" href="https://github.com/Mimikami/KamiSpeed/releases/latest">⬇ 下载 APK</a>
+      <a class="btn btn-primary" id="download" href="KamiSpeed.apk">⬇ 下载 APK</a>
       <a class="btn btn-ghost" href="https://github.com/Mimikami/KamiSpeed">GitHub 仓库</a>
     </div>
-    <div class="version" id="version">正在获取最新版本…</div>
+    <div class="version" id="version"></div>
   </header>
 
   <div class="phone">
@@ -146,7 +146,7 @@
   <section class="wrap">
     <h2 class="section-title">下载</h2>
     <div class="btn-row">
-      <a class="btn btn-primary" id="download2" href="https://github.com/Mimikami/KamiSpeed/releases/latest">⬇ 下载最新 APK</a>
+      <a class="btn btn-primary" id="download2" href="KamiSpeed.apk">⬇ 下载最新 APK</a>
       <a class="btn btn-ghost" href="https://github.com/Mimikami/KamiSpeed/releases">历史版本</a>
     </div>
   </section>
@@ -161,23 +161,19 @@
   </footer>
 
   <script>
-    // 动态获取最新 release 的 APK 直链，失败则回退到 releases 页
+    // 读取本地 version.json 显示版本（APK 由 Pages 静态托管，无需请求 GitHub API）
     (function () {
-      var api = 'https://api.github.com/repos/Mimikami/KamiSpeed/releases/latest';
-      fetch(api)
+      fetch('version.json')
         .then(function (r) { return r.json(); })
         .then(function (data) {
-          if (!data || !data.assets) return;
-          var apk = data.assets.find(function (a) { return /\.apk$/.test(a.name); });
-          var ver = data.tag_name || '';
-          var href = apk ? apk.browser_download_url : (data.html_url || 'https://github.com/Mimikami/KamiSpeed/releases/latest');
-          document.getElementById('download').href = href;
-          document.getElementById('download2').href = href;
-          document.getElementById('version').textContent = '最新版本 ' + ver;
+          if (data && data.version) {
+            document.getElementById('version').textContent = '最新版本 v' + data.version;
+            var apk = data.apk || 'KamiSpeed.apk';
+            document.getElementById('download').href = apk;
+            document.getElementById('download2').href = apk;
+          }
         })
-        .catch(function () {
-          document.getElementById('version').textContent = '';
-        });
+        .catch(function () {});
     })();
   </script>
 </body>

@@ -1,0 +1,59 @@
+name: sync-release-apk
+
+on:
+  schedule:
+    # 每 6 小时检查一次最新 release，有更新则同步 APK 到 docs/（触发 Pages 重新部署）
+    - cron: '17 */6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 获取最新 release 信息
+        id: rel
+        run: |
+          curl -s -H "Accept: application/vnd.github+json" \
+            https://api.github.com/repos/Mimikami/KamiSpeed/releases/latest > release.json
+          TAG=$(python3 -c "import json;print(json.load(open('release.json'))['tag_name'])")
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          cat release.json | python3 -c "
+            import json,sys
+            d=json.load(sys.stdin)
+            apks=[a['browser_download_url'] for a in d.get('assets',[]) if a['name'].endswith('.apk')]
+            open('apk_url.txt','w').write(apks[0] if apks else '')
+          "
+
+      - name: 下载 APK
+        run: |
+          if [ -s apk_url.txt ]; then
+            curl -L --fail -o docs/KamiSpeed.apk "$(cat apk_url.txt)"
+          else
+            echo "::warning::未找到 APK 资产"
+          fi
+
+      - name: 写入 version.json
+        run: |
+          python3 -c "
+            import json
+            d=json.load(open('release.json'))
+            ver=d.get('tag_name','').lstrip('v') or '0'
+            json.dump({'version': ver, 'apk': 'KamiSpeed.apk'}, open('docs/version.json','w'), ensure_ascii=False)
+          "
+
+      - name: 提交并推送（有变化才推，触发 Pages 重新部署）
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/KamiSpeed.apk docs/version.json
+          if git diff --cached --quiet; then
+            echo "无变化，跳过"
+          else
+            git commit -m "sync: APK ${{ steps.rel.outputs.tag }}"
+            git push
+          fi
