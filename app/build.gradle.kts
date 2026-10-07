@@ -12,8 +12,8 @@ android {
         applicationId = "com.kamispeed.app"
         minSdk = 24
         targetSdk = 34
-        versionCode = 1
-        versionName = "0.0.1"
+        versionCode = 2
+        versionName = "0.0.2"
         ndk {
             abiFilters += listOf("arm64-v8a", "armeabi-v7a")
         }
