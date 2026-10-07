@@ -1,0 +1,22 @@
+name: deploy-cloudflare
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    name: 部署主页到 Cloudflare Pages
+    steps:
+      - uses: actions/checkout@v4
+      - name: 部署 docs 目录
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy docs --project-name=kamispeed
