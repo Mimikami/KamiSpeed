@@ -174,8 +174,35 @@ public final class ContextPackage {
         }
     }
 
-    public final void wrapApplication(@org.jetbrains.annotations.Nullable android.app.Application application) {
-        android.content.Context base;
+    /**
+     * 把访客 Activity 所在 task 的最近任务卡片设置成**游戏自己的名称+图标**。
+     * 容器里的游戏 Activity 都装在宿主 Stub 里，系统默认把 task 的 label/icon
+     * 标成宿主的（都叫 KamiSpeed），最近任务里主面板和游戏看起来就是同一个应用。
+     * 用 TaskDescription 覆盖成访客应用自己的名字和图标，两者就能分开显示。
+     */
+    public final void applyGuestTaskDescription(@org.jetbrains.annotations.NotNull android.app.Activity activity) {
+        try {
+            android.content.Context host = hostContext;
+            if (host == null) return;
+            android.content.pm.ApplicationInfo ai = activity.getApplicationInfo();
+            if (ai == null) return;
+            java.lang.String guestPkg = ai.packageName;
+            if (guestPkg == null || guestPkg.equals(hostPackage)) return;
+            java.lang.String label = ai.loadLabel(host.getPackageManager()).toString();
+            android.app.ActivityManager.TaskDescription td;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
+                td = new android.app.ActivityManager.TaskDescription.Builder().setLabel(label).build();
+            } else {
+                td = new android.app.ActivityManager.TaskDescription(label);
+            }
+            activity.setTaskDescription(td);
+            android.util.Log.i(TAG, "task desc -> " + label + " (" + guestPkg + ")");
+        } catch (java.lang.Throwable t) {
+            android.util.Log.w(TAG, "applyGuestTaskDescription failed: " + t.getMessage());
+        }
+    }
+
+    public final void wrapApplication(@org.jetbrains.annotations.Nullable android.app.Application application) {        android.content.Context base;
         java.lang.String host = hostPackage;
         if (host == null || application == null || (base = application.getBaseContext()) == null || (base instanceof com.kamispeed.container.HostContextWrapper)) {
             return;

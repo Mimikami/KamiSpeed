@@ -38,6 +38,8 @@ public final class ContainerInstrumentation extends android.app.Instrumentation 
         kotlin.jvm.internal.Intrinsics.checkNotNullParameter(activity, "activity");
         com.kamispeed.container.ContextPackage.INSTANCE.wrapActivity(activity);
         this.base.callActivityOnCreate(activity, icicle);
+        // 访客窗口的最近任务卡片显示成游戏自己的名字+图标（与主面板分开）
+        com.kamispeed.container.ContextPackage.INSTANCE.applyGuestTaskDescription(activity);
     }
 
     @Override // android.app.Instrumentation
