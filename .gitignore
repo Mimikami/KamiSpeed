@@ -10,6 +10,8 @@ local.properties
 
 # APK 产物
 *.apk
+# 主页下载用：固定文件名的 APK 需要入库（Cloudflare Pages 静态托管）
+!docs/KamiSpeed.apk
 !gradle/wrapper/gradle-wrapper.jar
 
 # 系统文件
