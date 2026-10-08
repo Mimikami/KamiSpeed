@@ -22,12 +22,7 @@ jobs:
             https://api.github.com/repos/Mimikami/KamiSpeed/releases/latest > release.json
           TAG=$(python3 -c "import json;print(json.load(open('release.json'))['tag_name'])")
           echo "tag=$TAG" >> "$GITHUB_OUTPUT"
-          cat release.json | python3 -c "
-            import json,sys
-            d=json.load(sys.stdin)
-            apks=[a['browser_download_url'] for a in d.get('assets',[]) if a['name'].endswith('.apk')]
-            open('apk_url.txt','w').write(apks[0] if apks else '')
-          "
+          python3 -c "import json;d=json.load(open('release.json'));apks=[a['browser_download_url'] for a in d.get('assets',[]) if a['name'].endswith('.apk')];open('apk_url.txt','w').write(apks[0] if apks else '')"
 
       - name: 下载 APK
         run: |
@@ -39,12 +34,7 @@ jobs:
 
       - name: 写入 version.json
         run: |
-          python3 -c "
-            import json
-            d=json.load(open('release.json'))
-            ver=d.get('tag_name','').lstrip('v') or '0'
-            json.dump({'version': ver, 'apk': 'KamiSpeed.apk'}, open('docs/version.json','w'), ensure_ascii=False)
-          "
+          python3 -c "import json;d=json.load(open('release.json'));ver=d.get('tag_name','').lstrip('v') or '0';json.dump({'version': ver, 'apk': 'KamiSpeed.apk'}, open('docs/version.json','w'), ensure_ascii=False)"
 
       - name: 提交并推送（有变化才推，触发 Pages 重新部署）
         run: |
